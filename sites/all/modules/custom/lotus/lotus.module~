@@ -1,0 +1,73 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+
+function lotus_menu() {
+ $items['hello'] = [
+  'title' => 'Hello Drupal',
+  'page callback' => '_lotus_custom_page_content',
+  'access callback' => TRUE,
+ ];
+
+ $items['offers/hot/%'] = array(
+      'title' => 'Offers Galore!',
+      'description' => 'Landing Page for Offers Page',
+      'page callback' => 'lotus_offers_page',
+      'page arguments' => array(2),
+      'access arguments' => array('access content')
+    );
+
+return $items;
+}
+
+
+function _lotus_custom_page_content() {
+  return [
+   '#type' => 'markup',
+   '#markup' => t('Welcome to my website!'),
+  ];
+}
+
+function _lotus_custom_page_content_with_arguments($arg) {
+
+  return [
+   '#type' => 'markup',
+   '#markup' => t('Welcome to my website! your hot offer is @arg', ['@arg' => $arg]),
+  ];
+
+}
+
+
+/** 
+ * Page callback function.
+ **/
+
+  function lotus_offers_page($count) {
+    return 'You will get ' . $count . '% discount!!' ;
+  }
+
+/**
+ * Implements hook_cron().
+ */
+
+function lotus_cron() {
+  $results = db_select('node', 'n')
+             ->fields('n', ['nid'])
+             ->condition('created', strtotime('-30 days'), '<=')
+             ->execute();
+ foreach($results as $result) {
+  $nids[] = $result->nid;
+ }
+  
+ if(!empty($nids)) {
+   node_delete_multiple($nids);
+  }
+ 
+ drupal_set_message(t('The old node deleted now, please have look this ids @nids', ['nids' => $nids]));
+}
+
+
+
+
