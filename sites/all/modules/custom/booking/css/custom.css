@@ -131,7 +131,7 @@ ul li{
     height: 38px;
 }
 label{
-    width: 100px;
+    width: 100%;
 }
 .action-links a:hover, .action-links a:focus {
     background: #274359;

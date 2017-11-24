@@ -60,7 +60,7 @@ function booking_menu()
   $item['booking/frontpage'] = array(
     'title' => t('Booking Dashboard'),
     'access callback' => true,
-    'page callback' => 'booking_dashboard',
+    'page callback' => '',
     'type' => MENU_LOCAL_ACTION
   );
   $item['booking/edit/%booking'] = array(
@@ -556,7 +556,7 @@ function booking_form_date_filter($form, &$form_state)
   );
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Tìm'
+    '#value' => 'Find'
   );
   return $form;
 }
